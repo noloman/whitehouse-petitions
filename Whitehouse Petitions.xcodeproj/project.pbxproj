@@ -13,6 +13,9 @@
 		325CED99262F78940068D24A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 325CED97262F78940068D24A /* Main.storyboard */; };
 		325CED9B262F78970068D24A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 325CED9A262F78970068D24A /* Assets.xcassets */; };
 		325CED9E262F78970068D24A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 325CED9C262F78970068D24A /* LaunchScreen.storyboard */; };
+		325CEDA8262F7C980068D24A /* Petition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325CEDA7262F7C980068D24A /* Petition.swift */; };
+		325CEDAB262F7CBB0068D24A /* Petitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325CEDAA262F7CBB0068D24A /* Petitions.swift */; };
+		325CEDAE262F846B0068D24A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325CEDAD262F846B0068D24A /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		325CED9A262F78970068D24A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		325CED9D262F78970068D24A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		325CED9F262F78970068D24A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		325CEDA7262F7C980068D24A /* Petition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petition.swift; sourceTree = "<group>"; };
+		325CEDAA262F7CBB0068D24A /* Petitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Petitions.swift; sourceTree = "<group>"; };
+		325CEDAD262F846B0068D24A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +69,9 @@
 				325CED9A262F78970068D24A /* Assets.xcassets */,
 				325CED9C262F78970068D24A /* LaunchScreen.storyboard */,
 				325CED9F262F78970068D24A /* Info.plist */,
+				325CEDA7262F7C980068D24A /* Petition.swift */,
+				325CEDAA262F7CBB0068D24A /* Petitions.swift */,
+				325CEDAD262F846B0068D24A /* DetailViewController.swift */,
 			);
 			path = "Whitehouse Petitions";
 			sourceTree = "<group>";
@@ -138,8 +147,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				325CED96262F78940068D24A /* ViewController.swift in Sources */,
+				325CEDA8262F7C980068D24A /* Petition.swift in Sources */,
 				325CED92262F78940068D24A /* AppDelegate.swift in Sources */,
+				325CEDAE262F846B0068D24A /* DetailViewController.swift in Sources */,
 				325CED94262F78940068D24A /* SceneDelegate.swift in Sources */,
+				325CEDAB262F7CBB0068D24A /* Petitions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,7 +305,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nulltwenty.whitehousepetitions.Whitehouse-Petitions";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nulltwenty.whitehousepetitions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -312,7 +324,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.nulltwenty.whitehousepetitions.Whitehouse-Petitions";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nulltwenty.whitehousepetitions;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
