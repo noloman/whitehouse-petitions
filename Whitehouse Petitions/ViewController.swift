@@ -13,6 +13,10 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        performSelector(inBackground: #selector(fetchJson), with: nil)
+    }
+    
+    @objc func fetchJson() {
         let urlString: String
         
         if navigationController?.tabBarItem.tag == 0 {
@@ -22,28 +26,32 @@ class ViewController: UITableViewController {
             // urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=10000&limit=100"
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
-        
+    
         if let url = URL(string: urlString) {
             if let data = try? Data(contentsOf: url) {
                 // OK to parse
                 parse(json: data)
                 return
             }
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
-        showError()
     }
     
-    func showError() {
-        let ac = UIAlertController(title: "Loading error", message: "Please check your connection", preferredStyle: .alert)
-        ac.addAction(.init(title: "OK", style: .default))
-        present(ac, animated: true)
+    @objc func showError() {
+        DispatchQueue.main.async { [weak self] in
+            let ac = UIAlertController(title: "Loading error", message: "Please check your connection", preferredStyle: .alert)
+            ac.addAction(.init(title: "OK", style: .default))
+            self?.present(ac, animated: true)
+        }
     }
     
     func parse(json: Data) {
         let decoder = JSONDecoder()
         if let jsonDecoder = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonDecoder.results
-            tableView.reloadData()
+            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        } else {
+            performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
     
