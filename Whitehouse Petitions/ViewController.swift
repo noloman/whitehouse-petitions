@@ -9,6 +9,8 @@ import UIKit
 
 class ViewController: UITableViewController {
     var petitions = [Petition]()
+    var filteredPetitions = [Petition]()
+    var filters = [String]()
     var urlString: String?
     
     override func viewDidLoad() {
@@ -20,7 +22,33 @@ class ViewController: UITableViewController {
             // urlString = "https://api.whitehouse.gov/v1/petitions.json?signatureCountFloor=10000&limit=100"
             urlString = "https://www.hackingwithswift.com/samples/petitions-2.json"
         }
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addFilter))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(removeFilters))
         performSelector(inBackground: #selector(fetchJson), with: nil)
+    }
+    
+    @objc func removeFilters() {
+        self.filteredPetitions = self.petitions
+        self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+    }
+    
+    @objc func addFilter() {
+        let vc = UIAlertController(title: "Filters", message: nil, preferredStyle: .alert)
+        vc.addTextField { textField in
+            textField.placeholder = "Enter filter"
+        }
+        vc.addAction(.init(title: "Save filter", style: .default, handler: { (a: UIAlertAction) in
+            let textField = vc.textFields![0] as UITextField
+            self.filters.append(textField.text!)
+            if !self.filters.isEmpty {
+                let newArray = self.filteredPetitions.filter { petition in
+                    petition.title.lowercased().contains(textField.text!.lowercased()) || petition.body.lowercased().contains(textField.text!.lowercased())
+                }
+                self.filteredPetitions = newArray
+            }
+            self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+        }))
+        self.present(vc, animated: true)
     }
     
     @objc func fetchJson() {
@@ -46,26 +74,29 @@ class ViewController: UITableViewController {
         let decoder = JSONDecoder()
         if let jsonDecoder = try? decoder.decode(Petitions.self, from: json) {
             petitions = jsonDecoder.results
-            tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+            filteredPetitions = petitions
+            DispatchQueue.main.async {
+                self.tableView.performSelector(onMainThread: #selector(UITableView.reloadData), with: nil, waitUntilDone: false)
+            }
         } else {
             performSelector(onMainThread: #selector(showError), with: nil, waitUntilDone: false)
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return petitions.count
+        return filteredPetitions.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = petitions[indexPath.row].title
-        cell.detailTextLabel?.text = petitions[indexPath.row].body
+        cell.textLabel?.text = filteredPetitions[indexPath.row].title
+        cell.detailTextLabel?.text = filteredPetitions[indexPath.row].body
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = DetailViewController()
-        vc.detailItem = petitions[indexPath.row]
+        vc.detailItem = filteredPetitions[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
 }
